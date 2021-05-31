@@ -7,18 +7,20 @@ TagManager:
   - Remove1
   - Add1
   - FloorPuzle1
+  - GoldItem
+  - interactable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - puzzle1
-  - 
-  - 
-  - 
-  - 
+  - interactions
+  - Enviroment
+  - Carrying
+  - CC
   - 
   - 
   - 
