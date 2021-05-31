@@ -8,56 +8,88 @@ public class JointConnection : MonoBehaviour
 
     [SerializeField] float pickupRange = 5;
 
-    [SerializeField] GameObject ItemHeld;
+    [SerializeField] Rigidbody ItemHeld;
     [SerializeField] Rigidbody player;
     [SerializeField] ItemPickUP pickUpScript;
+    [SerializeField] float yeetFactor = 15f;
+    LayerMask layer = 1 << 7;
+
 
     RaycastHit hit;
 
     ItemPickUP currentPickup;
+    private void Start()
+    {
+       
+    }
 
 
     void Update()
     {
+        PickUp();
+        DropOrThrowObject();
 
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            DropOrThrowObject();
+        }
+
+
+    }
+
+    private void PickUp()
+    {
         if (Input.GetMouseButton(0))
         {
-            
-           
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickupRange))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickupRange, layer))
+
             {
+                pickUpScript = hit.rigidbody.GetComponent<ItemPickUP>();
                 pickUpScript.AddJoint();
-                PickupObject(hit.rigidbody.GetComponent<ItemPickUP>());
+                currentPickup = pickUpScript;
+
+                PickupObject(currentPickup);
+
             }
 
         }
-
-        /*  if (Input.GetMouseButtonUp(1))
-          {
-              if (ItemHeld != null)
-              {
-                  dropObject();
-                  ItemHeld = null;
-              }
-          }*/
     }
 
-    /*  void dropObject()
-      {
-          this.GetComponent<FixedJoint>().connectedBody = null;
-      }*/
+
+
+    private void DropOrThrowObject()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+
+            print(ItemHeld);
+            DropObject();
+            ItemHeld.GetComponent<Rigidbody>().velocity = transform.forward * yeetFactor;
+
+        }
+    }
+
+
 
     void PickupObject(ItemPickUP pickupObj)
     {
 
-       /* if (currentPickup)
+        pickupObj.Rigidbody.constraints = RigidbodyConstraints.None;
+        pickupObj.Joint.connectedBody = player;
+        ItemHeld = pickupObj.Rigidbody;
+
+    }
+
+    void DropObject()
+    {
+        if (currentPickup != null)
         {
-            Debug.LogError($"Have already picked up {currentPickup.name}", this);
-            return;
-        }*/
-        currentPickup = pickupObj;
-        currentPickup.Rigidbody.constraints = RigidbodyConstraints.None;
-        currentPickup.Joint.connectedBody = player;
+            Rigidbody rb = currentPickup.GetComponent<Rigidbody>();
+            rb.AddForce(Vector3.forward * 20000, ForceMode.Force);
+            currentPickup = null;
+        }
+
 
     }
 
