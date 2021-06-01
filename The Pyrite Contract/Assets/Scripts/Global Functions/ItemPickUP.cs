@@ -17,8 +17,7 @@ public class ItemPickUP : MonoBehaviour
 
         if (!_rigidbody && !TryGetComponent<Rigidbody>(out _rigidbody)) _rigidbody = gameObject.AddComponent<Rigidbody>();
 
-        // _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-
+       
         _Joint.breakForce = 11000f;
         _Joint.breakTorque = 11000f;
         _Joint.connectedMassScale = 1f;

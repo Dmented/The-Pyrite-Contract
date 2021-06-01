@@ -8,7 +8,7 @@ public class JointConnection : MonoBehaviour
 
     [SerializeField] float pickupRange = 5;
 
-    [SerializeField] Rigidbody ItemHeld;
+    public Rigidbody ItemHeld;
     [SerializeField] Rigidbody player;
     [SerializeField] ItemPickUP pickUpScript;
     [SerializeField] float yeetFactor = 15f;
@@ -65,7 +65,7 @@ public class JointConnection : MonoBehaviour
                 pickUpScript.breakJoint();
                 currentPickup = null;
                 ItemHeld.GetComponent<Rigidbody>().velocity = transform.forward * yeetFactor;
-                
+
                 inhand = false;
             }
 
@@ -77,7 +77,6 @@ public class JointConnection : MonoBehaviour
     void PickupObject(ItemPickUP pickupObj)
     {
 
-        pickupObj.Rigidbody.constraints = RigidbodyConstraints.None;
         pickupObj.Joint.connectedBody = player;
         ItemHeld = pickupObj.Rigidbody;
         inhand = true;
