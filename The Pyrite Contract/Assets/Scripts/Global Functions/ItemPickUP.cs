@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(FixedJoint))]
+
 
 public class ItemPickUP : MonoBehaviour
 {
@@ -29,5 +28,10 @@ public class ItemPickUP : MonoBehaviour
     public void AddJoint()
     {
         Awake();
+    }
+
+    public void breakJoint()
+    {
+        Destroy(_Joint);
     }
 }

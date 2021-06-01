@@ -18,29 +18,25 @@ public class JointConnection : MonoBehaviour
     RaycastHit hit;
 
     ItemPickUP currentPickup;
+
+    bool inhand = false;
     private void Start()
     {
-       
+
     }
 
 
     void Update()
     {
         PickUp();
-        DropOrThrowObject();
-
-
-        if (Input.GetMouseButtonUp(1))
-        {
-            DropOrThrowObject();
-        }
-
+        DropObject();
+        ThrowObject();
 
     }
 
     private void PickUp()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickupRange, layer))
 
@@ -58,14 +54,20 @@ public class JointConnection : MonoBehaviour
 
 
 
-    private void DropOrThrowObject()
+    private void ThrowObject()
     {
         if (Input.GetMouseButtonDown(1))
         {
 
-            print(ItemHeld);
-            DropObject();
-            ItemHeld.GetComponent<Rigidbody>().velocity = transform.forward * yeetFactor;
+            if (inhand)
+            {
+                print(ItemHeld);
+                pickUpScript.breakJoint();
+                currentPickup = null;
+                ItemHeld.GetComponent<Rigidbody>().velocity = transform.forward * yeetFactor;
+                
+                inhand = false;
+            }
 
         }
     }
@@ -78,19 +80,22 @@ public class JointConnection : MonoBehaviour
         pickupObj.Rigidbody.constraints = RigidbodyConstraints.None;
         pickupObj.Joint.connectedBody = player;
         ItemHeld = pickupObj.Rigidbody;
+        inhand = true;
 
     }
 
     void DropObject()
     {
-        if (currentPickup != null)
+        if (Input.GetMouseButtonUp(0))
         {
-            Rigidbody rb = currentPickup.GetComponent<Rigidbody>();
-            rb.AddForce(Vector3.forward * 20000, ForceMode.Force);
-            currentPickup = null;
+            if (inhand)
+            {
+                pickUpScript.breakJoint();
+                currentPickup = null;
+                inhand = false;
+            }
+
         }
-
-
     }
 
 
