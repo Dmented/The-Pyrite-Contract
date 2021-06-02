@@ -6,6 +6,7 @@ public class Lever2 : MonoBehaviour
 {
 
     [SerializeField] Animator leverAnimator;
+    [SerializeField] GameObject lastPuzzle;
 
     private void OnTriggerStay(Collider other)
 
@@ -24,6 +25,8 @@ public class Lever2 : MonoBehaviour
     void Activate()
     {
         leverAnimator.Play("LeverUp");
+        lastPuzzle.SetActive(true);
+
     }
 }
 

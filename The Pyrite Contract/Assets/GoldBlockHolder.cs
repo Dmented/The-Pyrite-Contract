@@ -22,10 +22,8 @@ public class GoldBlockHolder : MonoBehaviour
     {
         if (other.gameObject.tag == ("GoldItem"))
         {
-            print("got it");
             walkway.SetActive (true);
-
-
+            Destroy(other.gameObject);
 
         }
         

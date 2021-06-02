@@ -19,7 +19,7 @@ public class ItemPickUP : MonoBehaviour
 
        
         _Joint.breakForce = 11000f;
-        _Joint.breakTorque = 11000f;
+       _Joint.breakTorque = Mathf.Infinity;
         _Joint.connectedMassScale = 1f;
 
     }
