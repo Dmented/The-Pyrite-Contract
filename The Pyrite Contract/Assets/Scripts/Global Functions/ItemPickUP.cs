@@ -18,8 +18,8 @@ public class ItemPickUP : MonoBehaviour
         if (!_rigidbody && !TryGetComponent<Rigidbody>(out _rigidbody)) _rigidbody = gameObject.AddComponent<Rigidbody>();
 
        
-        _Joint.breakForce = 11000f;
-       _Joint.breakTorque = Mathf.Infinity;
+        _Joint.breakForce = 11000;
+       _Joint.breakTorque = 25000;
         _Joint.connectedMassScale = 1f;
 
     }
