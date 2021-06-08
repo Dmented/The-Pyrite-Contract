@@ -12,7 +12,10 @@ public class JointConnection : MonoBehaviour
     [SerializeField] Rigidbody player;
     [SerializeField] ItemPickUP pickUpScript;
     [SerializeField] float yeetFactor = 15f;
+    [SerializeField] float GroundCheck = 1.5f;
+    [SerializeField] LayerMask ground;
     LayerMask layer = 1 << 7;
+    bool touchingGround;
 
 
     RaycastHit hit;
@@ -31,6 +34,14 @@ public class JointConnection : MonoBehaviour
         PickUp();
         DropObject();
         ThrowObject();
+        TouchingGround();
+
+    }
+
+    void TouchingGround()
+    {
+        touchingGround = Physics.CheckSphere(player.position, GroundCheck, ground);
+        print(touchingGround);
 
     }
 
@@ -85,7 +96,7 @@ public class JointConnection : MonoBehaviour
 
     void DropObject()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) || touchingGround == false)
         {
             if (inhand)
             {
